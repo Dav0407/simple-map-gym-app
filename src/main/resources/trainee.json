@@ -1,0 +1,32 @@
+[
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "username": "John.Doe",
+    "password": "strongman123",
+    "isActive": true,
+    "date": "2024-06-15",
+    "address": "123 Main St, NY",
+    "userId": "123e4567-e89b-12d3-a456-426614174001"
+  },
+  {
+    "firstName": "Emily",
+    "lastName": "Clark",
+    "username": "Emily.Clark",
+    "password": "cardioking123",
+    "isActive": true,
+    "date": "2024-07-01",
+    "address": "456 Park Ave, LA",
+    "userId": "34dfb9c6-4d2c-4f7f-8fdc-88e2ad8df669"
+  },
+  {
+    "firstName": "Sophia",
+    "lastName": "Williams",
+    "username": "Sophia.Williams",
+    "password": "yogalife456",
+    "isActive": true,
+    "date": "2024-08-21",
+    "address": "789 Ocean Dr, Miami",
+    "userId": "e689d3c1-4f67-445d-874f-90c06df7e255"
+  }
+]

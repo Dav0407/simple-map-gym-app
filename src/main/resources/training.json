@@ -1,0 +1,29 @@
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "traineeId": "123e4567-e89b-12d3-a456-426614174001",
+    "trainerId": "123e4567-e89b-12d3-a456-426614174002",
+    "trainingName": "Strength Training",
+    "trainingType": "STRENGTH",
+    "trainingDate": "2025-02-21",
+    "trainingDuration": 60
+  },
+  {
+    "id": "a1fce5a3-49b1-46f1-9a74-1a45c5bc6b77",
+    "traineeId": "34dfb9c6-4d2c-4f7f-8fdc-88e2ad8df669",
+    "trainerId": "ad78b903-9a3b-4eb4-86f7-432f3c0f90c9",
+    "trainingName": "Cardio Session",
+    "trainingType": "CARDIO",
+    "trainingDate": "2025-03-10",
+    "trainingDuration": 45
+  },
+  {
+    "id": "b2e11e23-08b6-4f45-9e76-2a5e0e8f5bc9",
+    "traineeId": "e689d3c1-4f67-445d-874f-90c06df7e255",
+    "trainerId": "b776522c-b7e7-4e1e-9b8d-356d5a8f23d9",
+    "trainingName": "Yoga Session",
+    "trainingType": "STAMINA",
+    "trainingDate": "2025-04-05",
+    "trainingDuration": 90
+  }
+]

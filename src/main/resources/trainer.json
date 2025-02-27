@@ -1,0 +1,29 @@
+[
+  {
+    "firstName": "Alice",
+    "lastName": "Smith",
+    "username": "Alice.Smith",
+    "password": "trainerpower456",
+    "isActive": true,
+    "specialization": "Strength & Conditioning",
+    "userId": "123e4567-e89b-12d3-a456-426614174002"
+  },
+  {
+    "firstName": "Michael",
+    "lastName": "Brown",
+    "username": "Michael.Brown",
+    "password": "fitnessguru789",
+    "isActive": true,
+    "specialization": "Cardio & Endurance",
+    "userId": "ad78b903-9a3b-4eb4-86f7-432f3c0f90c9"
+  },
+  {
+    "firstName": "Emma",
+    "lastName": "Johnson",
+    "username": "Emma.Johnson",
+    "password": "peacefulmind123",
+    "isActive": true,
+    "specialization": "Yoga & Mindfulness",
+    "userId": "b776522c-b7e7-4e1e-9b8d-356d5a8f23d9"
+  }
+]
