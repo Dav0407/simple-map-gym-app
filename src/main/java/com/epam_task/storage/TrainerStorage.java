@@ -4,6 +4,7 @@ import com.epam_task.domain.Trainer;
 import com.epam_task.utils.JsonFileReader;
 import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.annotation.PostConstruct;
+import lombok.Getter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class TrainerStorage {
 
     private final String filePath;
 
+    @Getter
     private final Map<UUID, Trainer> trainers = new HashMap<>();
 
     //Value is assigned using constructor injection instead of field injection for easier testing
@@ -102,7 +104,4 @@ public class TrainerStorage {
         return trainer;
     }
 
-    public Map<UUID, Trainer> getTrainers() {
-        return trainers;
-    }
 }

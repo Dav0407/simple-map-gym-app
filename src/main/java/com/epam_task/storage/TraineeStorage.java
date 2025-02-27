@@ -4,6 +4,7 @@ import com.epam_task.domain.Trainee;
 import com.epam_task.utils.JsonFileReader;
 import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.annotation.PostConstruct;
+import lombok.Getter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class TraineeStorage {
 
     private final String filePath;
 
+    @Getter
     private final Map<UUID, Trainee> trainees = new HashMap<>();
 
     //Value is assigned using constructor injection instead of field injection for easier testing
@@ -118,10 +120,6 @@ public class TraineeStorage {
         trainees.remove(id);
         LOG.info("Deleted trainee with ID: " + id);
         return true;
-    }
-
-    public Map<UUID, Trainee> getTrainees() {
-        return trainees;
     }
 
 }

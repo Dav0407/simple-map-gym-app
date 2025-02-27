@@ -1,6 +1,8 @@
 package com.epam_task.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.Getter;
+import lombok.Setter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -48,25 +50,10 @@ class JsonFileReaderTest {
         assertEquals(25, jane.getAge());
     }
 
+    @Setter
+    @Getter
     static class Person {
         private String name;
         private int age;
-
-        // Getters and setters
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getAge() {
-            return age;
-        }
-
-        public void setAge(int age) {
-            this.age = age;
-        }
     }
 }
