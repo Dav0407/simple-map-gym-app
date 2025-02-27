@@ -2,6 +2,7 @@ package com.epam_task.dao;
 
 import com.epam_task.domain.Training;
 import com.epam_task.storage.TrainingStorage;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @Component
 public class TrainingDAO {
