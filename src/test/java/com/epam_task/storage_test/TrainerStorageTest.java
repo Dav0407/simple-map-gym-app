@@ -2,9 +2,14 @@ package com.epam_task.storage_test;
 
 import com.epam_task.domain.Trainer;
 import com.epam_task.storage.TrainerStorage;
+import com.epam_task.utils.JsonFileReader;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedConstruction;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,6 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mockConstruction;
+import static org.mockito.Mockito.when;
 
 
 class TrainerStorageTest {
@@ -30,6 +39,85 @@ class TrainerStorageTest {
         testTrainer = new Trainer();
         testTrainer.setUserId(testId);
         testTrainer.setUsername("TestTrainer");
+    }
+
+    @Test
+    void postProcessor_WithValidTrainers_ShouldLoadTrainers() {
+
+        List<Trainer> trainers = new ArrayList<>();
+        UUID id1 = UUID.randomUUID();
+        UUID id2 = UUID.randomUUID();
+
+        Trainer trainer1 = new Trainer();
+        trainer1.setUserId(id1);
+        trainer1.setUsername("Trainer1");
+
+        Trainer trainer2 = new Trainer();
+        trainer2.setUserId(id2);
+        trainer2.setUsername("Trainer2");
+
+        trainers.add(trainer1);
+        trainers.add(trainer2);
+
+        try (MockedConstruction<JsonFileReader> mocked = mockConstruction(JsonFileReader.class,
+                (mock, context) -> {
+                    when(mock.readJsonFile(eq(TEST_FILE_PATH), any(TypeReference.class)))
+                            .thenReturn(trainers);
+                })) {
+
+            trainerStorage.postProcessor();
+
+            assertEquals(2, trainerStorage.getTrainers().size());
+            assertEquals(trainer1, trainerStorage.getTrainers().get(id1));
+            assertEquals(trainer2, trainerStorage.getTrainers().get(id2));
+        }
+    }
+
+    @Test
+    void postProcessor_WithEmptyList_ShouldNotSaveAnyTrainers() {
+
+        List<Trainer> emptyList = new ArrayList<>();
+
+        try (MockedConstruction<JsonFileReader> mocked = mockConstruction(JsonFileReader.class,
+                (mock, context) -> {
+                    when(mock.readJsonFile(eq(TEST_FILE_PATH), any(TypeReference.class)))
+                            .thenReturn(emptyList);
+                })) {
+
+            trainerStorage.postProcessor();
+
+            assertTrue(trainerStorage.getTrainers().isEmpty());
+        }
+    }
+
+    @Test
+    void postProcessor_WithNullList_ShouldNotSaveAnyTrainers() {
+
+        try (MockedConstruction<JsonFileReader> mocked = mockConstruction(JsonFileReader.class,
+                (mock, context) -> {
+                    when(mock.readJsonFile(eq(TEST_FILE_PATH), any(TypeReference.class)))
+                            .thenReturn(null);
+                })) {
+
+            trainerStorage.postProcessor();
+
+            assertTrue(trainerStorage.getTrainers().isEmpty());
+        }
+    }
+
+    @Test
+    void postProcessor_WithException_ShouldHandleException() {
+
+        try (MockedConstruction<JsonFileReader> mocked = mockConstruction(JsonFileReader.class,
+                (mock, context) -> {
+                    when(mock.readJsonFile(eq(TEST_FILE_PATH), any(TypeReference.class)))
+                            .thenThrow(new RuntimeException("Test exception"));
+                })) {
+
+            trainerStorage.postProcessor();
+
+            assertTrue(trainerStorage.getTrainers().isEmpty());
+        }
     }
 
     @Test
