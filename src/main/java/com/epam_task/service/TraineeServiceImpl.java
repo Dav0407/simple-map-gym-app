@@ -88,6 +88,8 @@ public class TraineeServiceImpl implements TraineeService {
             throw new IllegalArgumentException("Trainee ID and updated trainee details are required.");
         }
 
+        trainee.setUsername(userService.generateUsername(trainee.getFirstName(), trainee.getLastName()));
+
         Trainee updatedTrainee = traineeDAO.update(id, trainee);
         log.info("Trainee updated successfully: userId=" + updatedTrainee.getUserId() + ", username=" + updatedTrainee.getUsername());
         return updatedTrainee;

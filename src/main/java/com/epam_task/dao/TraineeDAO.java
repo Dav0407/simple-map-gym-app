@@ -2,6 +2,7 @@ package com.epam_task.dao;
 
 import com.epam_task.domain.Trainee;
 import com.epam_task.storage.TraineeStorage;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @Getter
 @Setter(onMethod = @__(@Autowired))
+@AllArgsConstructor
 @NoArgsConstructor
 @Component
 public class TraineeDAO {

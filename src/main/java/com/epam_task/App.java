@@ -42,7 +42,7 @@ public class App {
             System.out.println("10. Exit");
             System.out.print("Enter your choice: ");
 
-            int choice = -1;
+            int choice;
             try {
                 String input = SCANNER.nextLine();
                 choice = Integer.parseInt(input);

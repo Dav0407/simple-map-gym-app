@@ -83,6 +83,8 @@ public class TrainerServiceImpl implements TrainerService {
             throw new IllegalArgumentException("Trainer ID and updated trainer details are required.");
         }
 
+        trainer.setUsername(userService.generateUsername(trainer.getFirstName(), trainer.getLastName()));
+
         Trainer updatedTrainer = trainerDAO.update(id, trainer);
         log.info("Trainer updated successfully: userId=" + updatedTrainer.getUserId() + ", username=" + updatedTrainer.getUsername());
         return updatedTrainer;
