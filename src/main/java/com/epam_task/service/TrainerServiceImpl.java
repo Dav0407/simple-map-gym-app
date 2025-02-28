@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Setter
+@Setter(onMethod = @__(@Autowired))
 @NoArgsConstructor
 @Service
 public class TrainerServiceImpl implements TrainerService {

@@ -13,16 +13,17 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.UUID;
 
 public class App {
 
-    private static final Log log = LogFactory.getLog(App.class);
-    private static final Scanner scanner = new Scanner(System.in);
+    private static final Log LOG = LogFactory.getLog(App.class);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
-        log.info("Welcome to the GYM Management System!");
+        LOG.info("Welcome to the GYM Management System!");
         ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
         GymFacade gymFacade = context.getBean(GymFacade.class);
 
@@ -41,8 +42,14 @@ public class App {
             System.out.println("10. Exit");
             System.out.print("Enter your choice: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
+            int choice = -1;
+            try {
+                String input = SCANNER.nextLine();
+                choice = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid choice. Please try again.");
+                continue;
+            }
 
             switch (choice) {
                 case 1:
@@ -80,18 +87,27 @@ public class App {
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-        scanner.close();
+        SCANNER.close();
     }
 
     private static void createTrainee(GymFacade gymFacade) {
         System.out.print("Enter first name: ");
-        String firstName = scanner.nextLine();
+        String firstName = SCANNER.nextLine();
         System.out.print("Enter last name: ");
-        String lastName = scanner.nextLine();
+        String lastName = SCANNER.nextLine();
         System.out.print("Enter address: ");
-        String address = scanner.nextLine();
-        System.out.print("Enter date of birth (yyyy-MM-dd): ");
-        LocalDate dateOfBirth = LocalDate.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String address = SCANNER.nextLine();
+
+        LocalDate dateOfBirth = null;
+        while (dateOfBirth == null) {
+            System.out.print("Enter date of birth (yyyy-MM-dd): ");
+            String dateInput = SCANNER.nextLine();
+            try {
+                dateOfBirth = LocalDate.parse(dateInput, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format. Please use yyyy-MM-dd with valid values for month (1-12) and day.");
+            }
+        }
 
         Trainee trainee = gymFacade.createTrainee(firstName, lastName, address, dateOfBirth);
         System.out.println("Trainee created: " + trainee);
@@ -99,7 +115,7 @@ public class App {
 
     private static void getTrainee(GymFacade gymFacade) {
         System.out.print("Enter trainee ID: ");
-        UUID traineeId = UUID.fromString(scanner.nextLine());
+        UUID traineeId = UUID.fromString(SCANNER.nextLine());
 
         Trainee trainee = gymFacade.getTrainee(traineeId);
         if (trainee != null) {
@@ -111,7 +127,7 @@ public class App {
 
     private static void updateTrainee(GymFacade gymFacade) {
         System.out.print("Enter trainee ID: ");
-        UUID traineeId = UUID.fromString(scanner.nextLine());
+        UUID traineeId = UUID.fromString(SCANNER.nextLine());
 
         Trainee trainee = gymFacade.getTrainee(traineeId);
         if (trainee == null) {
@@ -120,13 +136,24 @@ public class App {
         }
 
         System.out.print("Enter new first name: ");
-        trainee.setFirstName(scanner.nextLine());
+        trainee.setFirstName(SCANNER.nextLine());
         System.out.print("Enter new last name: ");
-        trainee.setLastName(scanner.nextLine());
+        trainee.setLastName(SCANNER.nextLine());
         System.out.print("Enter new address: ");
-        trainee.setAddress(scanner.nextLine());
-        System.out.print("Enter new date of birth (yyyy-MM-dd): ");
-        trainee.setDate(LocalDate.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        trainee.setAddress(SCANNER.nextLine());
+
+        // Date validation loop
+        LocalDate newDate = null;
+        while (newDate == null) {
+            System.out.print("Enter new date of birth (yyyy-MM-dd): ");
+            String dateInput = SCANNER.nextLine();
+            try {
+                newDate = LocalDate.parse(dateInput, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format. Please use yyyy-MM-dd with valid values for month (1-12) and day.");
+            }
+        }
+        trainee.setDate(newDate);
 
         Trainee updatedTrainee = gymFacade.updateTrainee(traineeId, trainee);
         System.out.println("Trainee updated: " + updatedTrainee);
@@ -134,7 +161,7 @@ public class App {
 
     private static void deleteTrainee(GymFacade gymFacade) {
         System.out.print("Enter trainee ID: ");
-        UUID traineeId = UUID.fromString(scanner.nextLine());
+        UUID traineeId = UUID.fromString(SCANNER.nextLine());
 
         boolean isDeleted = gymFacade.deleteTrainee(traineeId);
         if (isDeleted) {
@@ -146,11 +173,11 @@ public class App {
 
     private static void createTrainer(GymFacade gymFacade) {
         System.out.print("Enter first name: ");
-        String firstName = scanner.nextLine();
+        String firstName = SCANNER.nextLine();
         System.out.print("Enter last name: ");
-        String lastName = scanner.nextLine();
+        String lastName = SCANNER.nextLine();
         System.out.print("Enter specialization: ");
-        String specialization = scanner.nextLine();
+        String specialization = SCANNER.nextLine();
 
         Trainer trainer = gymFacade.createTrainer(firstName, lastName, specialization);
         System.out.println("Trainer created: " + trainer);
@@ -158,7 +185,7 @@ public class App {
 
     private static void getTrainer(GymFacade gymFacade) {
         System.out.print("Enter trainer ID: ");
-        UUID trainerId = UUID.fromString(scanner.nextLine());
+        UUID trainerId = UUID.fromString(SCANNER.nextLine());
 
         Trainer trainer = gymFacade.getTrainer(trainerId);
         if (trainer != null) {
@@ -170,7 +197,7 @@ public class App {
 
     private static void updateTrainer(GymFacade gymFacade) {
         System.out.print("Enter trainer ID: ");
-        UUID trainerId = UUID.fromString(scanner.nextLine());
+        UUID trainerId = UUID.fromString(SCANNER.nextLine());
 
         Trainer trainer = gymFacade.getTrainer(trainerId);
         if (trainer == null) {
@@ -179,11 +206,11 @@ public class App {
         }
 
         System.out.print("Enter new first name: ");
-        trainer.setFirstName(scanner.nextLine());
+        trainer.setFirstName(SCANNER.nextLine());
         System.out.print("Enter new last name: ");
-        trainer.setLastName(scanner.nextLine());
+        trainer.setLastName(SCANNER.nextLine());
         System.out.print("Enter new specialization: ");
-        trainer.setSpecialization(scanner.nextLine());
+        trainer.setSpecialization(SCANNER.nextLine());
 
         Trainer updatedTrainer = gymFacade.updateTrainer(trainerId, trainer);
         System.out.println("Trainer updated: " + updatedTrainer);
@@ -191,18 +218,28 @@ public class App {
 
     private static void createTraining(GymFacade gymFacade) {
         System.out.print("Enter trainee ID: ");
-        UUID traineeId = UUID.fromString(scanner.nextLine());
+        UUID traineeId = UUID.fromString(SCANNER.nextLine());
         System.out.print("Enter trainer ID: ");
-        UUID trainerId = UUID.fromString(scanner.nextLine());
+        UUID trainerId = UUID.fromString(SCANNER.nextLine());
         System.out.print("Enter training name: ");
-        String trainingName = scanner.nextLine();
+        String trainingName = SCANNER.nextLine();
         System.out.print("Enter training type (CARDIO, STRENGTH, YOGA): ");
-        TrainingType trainingType = TrainingType.valueOf(scanner.nextLine().toUpperCase());
-        System.out.print("Enter training date (yyyy-MM-dd): ");
-        LocalDate trainingDate = LocalDate.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        TrainingType trainingType = TrainingType.valueOf(SCANNER.nextLine().toUpperCase());
+
+        LocalDate trainingDate = null;
+        while (trainingDate == null) {
+            System.out.print("Enter training date (yyyy-MM-dd): ");
+            String dateInput = SCANNER.nextLine();
+            try {
+                trainingDate = LocalDate.parse(dateInput, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format. Please use yyyy-MM-dd with valid values.");
+            }
+        }
+
         System.out.print("Enter training duration (in minutes): ");
-        int trainingDuration = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
+        int trainingDuration = SCANNER.nextInt();
+        SCANNER.nextLine(); // Consume the newline character
 
         Training training = gymFacade.createTraining(traineeId, trainerId, trainingName, trainingType, trainingDate, trainingDuration);
         System.out.println("Training created: " + training);
@@ -210,7 +247,7 @@ public class App {
 
     private static void getTraining(GymFacade gymFacade) {
         System.out.print("Enter training ID: ");
-        UUID trainingId = UUID.fromString(scanner.nextLine());
+        UUID trainingId = UUID.fromString(SCANNER.nextLine());
 
         Training training = gymFacade.getTraining(trainingId);
         if (training != null) {

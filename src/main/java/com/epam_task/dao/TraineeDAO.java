@@ -5,6 +5,7 @@ import com.epam_task.storage.TraineeStorage;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
-@Setter
+@Setter(onMethod = @__(@Autowired))
 @NoArgsConstructor
 @Component
 public class TraineeDAO {
