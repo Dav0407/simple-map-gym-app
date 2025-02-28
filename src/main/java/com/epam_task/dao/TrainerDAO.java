@@ -36,7 +36,7 @@ public class TrainerDAO {
     }
 
     public List<Trainer> findAll() {
-        return new ArrayList<>(getStorage().getUuidTrainerMap().values());
+        return new ArrayList<>(getStorage().getTrainers().values());
     }
 
 }

@@ -67,9 +67,9 @@ class TrainerStorageTest {
 
             trainerStorage.postProcessor();
 
-            assertEquals(2, trainerStorage.getUuidTrainerMap().size());
-            assertEquals(trainer1, trainerStorage.getUuidTrainerMap().get(id1));
-            assertEquals(trainer2, trainerStorage.getUuidTrainerMap().get(id2));
+            assertEquals(2, trainerStorage.getTrainers().size());
+            assertEquals(trainer1, trainerStorage.getTrainers().get(id1));
+            assertEquals(trainer2, trainerStorage.getTrainers().get(id2));
         }
     }
 
@@ -86,7 +86,7 @@ class TrainerStorageTest {
 
             trainerStorage.postProcessor();
 
-            assertTrue(trainerStorage.getUuidTrainerMap().isEmpty());
+            assertTrue(trainerStorage.getTrainers().isEmpty());
         }
     }
 
@@ -101,7 +101,7 @@ class TrainerStorageTest {
 
             trainerStorage.postProcessor();
 
-            assertTrue(trainerStorage.getUuidTrainerMap().isEmpty());
+            assertTrue(trainerStorage.getTrainers().isEmpty());
         }
     }
 
@@ -116,7 +116,7 @@ class TrainerStorageTest {
 
             trainerStorage.postProcessor();
 
-            assertTrue(trainerStorage.getUuidTrainerMap().isEmpty());
+            assertTrue(trainerStorage.getTrainers().isEmpty());
         }
     }
 
@@ -126,7 +126,7 @@ class TrainerStorageTest {
         Trainer previousValue = trainerStorage.save(testTrainer);
 
         assertNotNull(previousValue);
-        assertEquals(testTrainer, trainerStorage.getUuidTrainerMap().get(testId));
+        assertEquals(testTrainer, trainerStorage.getTrainers().get(testId));
     }
 
     @Test
@@ -135,7 +135,7 @@ class TrainerStorageTest {
         Trainer result = trainerStorage.save(null);
 
         assertNull(result);
-        assertTrue(trainerStorage.getUuidTrainerMap().isEmpty());
+        assertTrue(trainerStorage.getTrainers().isEmpty());
     }
 
     @Test
@@ -146,7 +146,7 @@ class TrainerStorageTest {
         Trainer result = trainerStorage.save(testTrainer);
 
         assertNull(result);
-        assertTrue(trainerStorage.getUuidTrainerMap().isEmpty());
+        assertTrue(trainerStorage.getTrainers().isEmpty());
     }
 
     @Test
@@ -187,7 +187,7 @@ class TrainerStorageTest {
         Trainer previousValue = trainerStorage.updateById(testId, updatedTrainer);
 
         assertEquals(updatedTrainer, previousValue);
-        assertEquals(updatedTrainer, trainerStorage.getUuidTrainerMap().get(testId));
+        assertEquals(updatedTrainer, trainerStorage.getTrainers().get(testId));
     }
 
     @Test
@@ -221,7 +221,7 @@ class TrainerStorageTest {
 
         trainerStorage.save(testTrainer);
 
-        Map<UUID, Trainer> trainers = trainerStorage.getUuidTrainerMap();
+        Map<UUID, Trainer> trainers = trainerStorage.getTrainers();
 
         assertNotNull(trainers);
         assertEquals(1, trainers.size());
