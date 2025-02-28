@@ -89,14 +89,14 @@ class TrainerDAOTest {
 
         HashMap<UUID, Trainer> trainers = new HashMap<>();
         trainers.put(testId, testTrainer);
-        when(storage.getTrainers()).thenReturn(trainers);
+        when(storage.getUuidTrainerMap()).thenReturn(trainers);
 
         List<Trainer> result = trainerDAO.findAll();
 
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals(testTrainer, result.get(0));
-        verify(storage).getTrainers();
+        verify(storage).getUuidTrainerMap();
     }
 
     @Test

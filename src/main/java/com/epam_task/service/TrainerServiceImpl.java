@@ -16,7 +16,7 @@ import java.util.UUID;
 @Service
 public class TrainerServiceImpl implements TrainerService {
 
-    private static final Log log = LogFactory.getLog(TrainerServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(TrainerServiceImpl.class);
 
     private TrainerDAO trainerDAO;
 
@@ -25,10 +25,10 @@ public class TrainerServiceImpl implements TrainerService {
     //CRUD methods
     @Override
     public Trainer createTrainer(String firstName, String lastName, String specialization) {
-        log.info("Attempting to create a trainer: firstName=" + firstName + ", lastName=" + lastName + ", specialization=" + specialization);
+        LOG.info("Attempting to create a trainer: firstName=" + firstName + ", lastName=" + lastName + ", specialization=" + specialization);
 
         if (firstName == null || lastName == null || specialization == null) {
-            log.error("Trainer creation failed: Missing required fields.");
+            LOG.error("Trainer creation failed: Missing required fields.");
             throw new IllegalArgumentException("All fields (firstName, lastName, specialization) are required.");
         }
 
@@ -41,34 +41,34 @@ public class TrainerServiceImpl implements TrainerService {
         trainer.setPassword(userService.generateRandomPassword());
         trainer.setIsActive(true);
 
-        log.info("Generated trainer: userId=" + trainer.getUserId() + ", username=" + trainer.getUsername());
+        LOG.info("Generated trainer: userId=" + trainer.getUserId() + ", username=" + trainer.getUsername());
 
         return save(trainer);
     }
 
     @Override
     public Trainer save(Trainer trainer) {
-        log.info("Saving trainer with ID: " + trainer.getUserId());
+        LOG.info("Saving trainer with ID: " + trainer.getUserId());
         Trainer savedTrainer = trainerDAO.save(trainer);
-        log.info("Trainer saved successfully: userId=" + savedTrainer.getUserId() + ", username=" + savedTrainer.getUsername());
+        LOG.info("Trainer saved successfully: userId=" + savedTrainer.getUserId() + ", username=" + savedTrainer.getUsername());
         return savedTrainer;
     }
 
     @Override
     public Trainer read(UUID id) {
-        log.info("Fetching trainer with ID: " + id);
+        LOG.info("Fetching trainer with ID: " + id);
 
         if (id == null) {
-            log.error("Read failed: Trainer ID is null.");
+            LOG.error("Read failed: Trainer ID is null.");
             throw new IllegalArgumentException("Trainer ID cannot be null.");
         }
 
         Trainer trainer = trainerDAO.read(id);
 
         if (trainer == null) {
-            log.warn("Trainer with ID " + id + " not found.");
+            LOG.warn("Trainer with ID " + id + " not found.");
         } else {
-            log.info("Trainer retrieved successfully: userId=" + trainer.getUserId() + ", username=" + trainer.getUsername());
+            LOG.info("Trainer retrieved successfully: userId=" + trainer.getUserId() + ", username=" + trainer.getUsername());
         }
 
         return trainer;
@@ -76,17 +76,17 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public Trainer update(UUID id, Trainer trainer) {
-        log.info("Updating trainer with ID: " + id);
+        LOG.info("Updating trainer with ID: " + id);
 
         if (id == null || trainer == null) {
-            log.error("Update failed: ID or trainer object is null.");
+            LOG.error("Update failed: ID or trainer object is null.");
             throw new IllegalArgumentException("Trainer ID and updated trainer details are required.");
         }
 
         trainer.setUsername(userService.generateUsername(trainer.getFirstName(), trainer.getLastName()));
 
         Trainer updatedTrainer = trainerDAO.update(id, trainer);
-        log.info("Trainer updated successfully: userId=" + updatedTrainer.getUserId() + ", username=" + updatedTrainer.getUsername());
+        LOG.info("Trainer updated successfully: userId=" + updatedTrainer.getUserId() + ", username=" + updatedTrainer.getUsername());
         return updatedTrainer;
     }
 }

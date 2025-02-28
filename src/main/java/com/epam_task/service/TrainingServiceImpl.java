@@ -18,33 +18,33 @@ import java.util.UUID;
 @Service
 public class TrainingServiceImpl implements TrainingService {
 
-    private static final Log log = LogFactory.getLog(TrainingServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(TrainingServiceImpl.class);
 
     private TrainingDAO trainingDAO;
 
     //CRUD methods
     public Training createTraining(UUID traineeId, UUID trainerId, String trainingName, TrainingType trainingType, LocalDate trainingDate, Integer trainingDuration) {
-        log.info("Creating a new training session: Name=" + trainingName + ", Date=" + trainingDate);
+        LOG.info("Creating a new training session: Name=" + trainingName + ", Date=" + trainingDate);
 
         // Validation checks
         if (traineeId == null || trainerId == null) {
-            log.error("Training creation failed: Trainee ID or Trainer ID is null.");
+            LOG.error("Training creation failed: Trainee ID or Trainer ID is null.");
             throw new IllegalArgumentException("Trainee ID and Trainer ID cannot be null.");
         }
         if (trainingName == null || trainingName.trim().isEmpty()) {
-            log.error("Training creation failed: Training name is empty.");
+            LOG.error("Training creation failed: Training name is empty.");
             throw new IllegalArgumentException("Training name cannot be empty.");
         }
         if (trainingType == null) {
-            log.error("Training creation failed: Training type is null.");
+            LOG.error("Training creation failed: Training type is null.");
             throw new IllegalArgumentException("Training type cannot be null.");
         }
         if (trainingDate == null || trainingDate.isBefore(LocalDate.now())) {
-            log.error("Training creation failed: Invalid training date.");
+            LOG.error("Training creation failed: Invalid training date.");
             throw new IllegalArgumentException("Training date cannot be in the past.");
         }
         if (trainingDuration == null || trainingDuration <= 0) {
-            log.error("Training creation failed: Invalid training duration.");
+            LOG.error("Training creation failed: Invalid training duration.");
             throw new IllegalArgumentException("Training duration must be a positive number.");
         }
 
@@ -58,37 +58,37 @@ public class TrainingServiceImpl implements TrainingService {
         training.setTrainingDuration(trainingDuration);
 
         Training savedTraining = save(training);
-        log.info("Training session created successfully: ID=" + savedTraining.getId());
+        LOG.info("Training session created successfully: ID=" + savedTraining.getId());
         return savedTraining;
     }
 
 
     public Training save(Training training) {
-        log.info("Attempting to save a training session: " + training);
+        LOG.info("Attempting to save a training session: " + training);
 
         if (training == null) {
-            log.error("Save failed: Training object is null.");
+            LOG.error("Save failed: Training object is null.");
             throw new IllegalArgumentException("Training object cannot be null.");
         }
 
         Training savedTraining = trainingDAO.save(training);
-        log.info("Training saved successfully: ID=" + savedTraining.getId());
+        LOG.info("Training saved successfully: ID=" + savedTraining.getId());
         return savedTraining;
     }
 
     public Training read(UUID id) {
-        log.info("Fetching training session with ID: " + id);
+        LOG.info("Fetching training session with ID: " + id);
 
         if (id == null) {
-            log.error("Read failed: Training ID is null.");
+            LOG.error("Read failed: Training ID is null.");
             throw new IllegalArgumentException("Training ID cannot be null.");
         }
 
         Training training = trainingDAO.read(id);
         if (training == null) {
-            log.warn("Training session with ID " + id + " not found.");
+            LOG.warn("Training session with ID " + id + " not found.");
         } else {
-            log.info("Training retrieved successfully: ID=" + training.getId());
+            LOG.info("Training retrieved successfully: ID=" + training.getId());
         }
         return training;
     }
